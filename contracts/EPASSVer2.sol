@@ -382,16 +382,43 @@ contract EPASSVer2 is
 
     //restrict aprooval
 
-    mapping(address => bool) public contractAllowList;
-    mapping(address => bool) public contractDenyList;
+    mapping(address => bool) public contractAllowListOfSetapprovalforall;
+    mapping(address => bool) public contractBlockListOfTransfer;
 
-    function setLocalContractAllowList(address _contract , bool _state ) public onlyOwner{
-        contractAllowList[_contract] = _state;
+    function setContractAllowList(address _contract , bool _state ) public onlyOwner{
+        contractAllowListOfSetapprovalforall[_contract] = _state;
+    }
+
+    function setContractBlockList(address _contract , bool _state ) public onlyOwner{
+        contractBlockListOfTransfer[_contract] = _state;
     }
 
     function setApprovalForAll(address operator, bool approved) public virtual override(ERC721Upgradeable, IERC721Upgradeable) {
-        require( contractAllowList[operator] == true , "Contract is not allowed");
+        require( contractAllowListOfSetapprovalforall[operator] == true , "Contract is not allowed");
         super.setApprovalForAll(operator, approved);
+    }
+
+    function transferFrom(address from, address to, uint256 tokenId) public override(ERC721Upgradeable, IERC721Upgradeable)  {
+        require( contractBlockListOfTransfer[msg.sender] == false , "Contract is blocked" );
+        super.transferFrom(from, to, tokenId);
+    }
+
+    function safeTransferFrom(address from, address to, uint256 tokenId) public override(ERC721Upgradeable, IERC721Upgradeable)  {
+        require( contractBlockListOfTransfer[msg.sender] == false , "Contract is blocked" );
+        super.safeTransferFrom(from, to, tokenId);
+    }
+
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data) public override(ERC721Upgradeable, IERC721Upgradeable) {
+        require( contractBlockListOfTransfer[msg.sender] == false , "Contract is blocked" );
+        super.safeTransferFrom(from, to, tokenId, data);
+    }
+
+    function getContractAllowListOfSetapprovalforall(address _address) public view returns(bool){
+        return contractAllowListOfSetapprovalforall[_address];
+    }
+
+    function getContractBlockListOfTransfer(address _address) public view returns(bool){
+        return contractBlockListOfTransfer[_address];
     }
 
 
