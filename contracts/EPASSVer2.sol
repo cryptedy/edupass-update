@@ -374,4 +374,27 @@ contract EPASSVer2 is
         require(_exists(tokenId), "tokenId not exist");
         _;
     }
+
+
+
+
+
+
+    //restrict aprooval
+
+    mapping(address => bool) public contractAllowList;
+    mapping(address => bool) public contractDenyList;
+
+    function setLocalContractAllowList(address _contract , bool _state ) public onlyOwner{
+        contractAllowList[_contract] = _state;
+    }
+
+    function setApprovalForAll(address operator, bool approved) public virtual override(ERC721Upgradeable, IERC721Upgradeable) {
+        require( contractAllowList[operator] == true , "Contract is not allowed");
+        super.setApprovalForAll(operator, approved);
+    }
+
+
+
+
 }
