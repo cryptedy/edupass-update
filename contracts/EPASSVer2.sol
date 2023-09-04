@@ -378,7 +378,7 @@ contract EPASSVer2 is
 
 
 
-
+/*
 
     //restrict aprooval
 
@@ -393,7 +393,7 @@ contract EPASSVer2 is
         require( contractAllowList[operator] == true , "Contract is not allowed");
         super.setApprovalForAll(operator, approved);
     }
-
+*/
 
 
 
