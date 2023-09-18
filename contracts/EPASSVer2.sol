@@ -379,7 +379,6 @@ contract EPASSVer2 is
 
 
 
-
     //restrict aprooval
 
     mapping(address => bool) public contractAllowListOfSetapprovalforall;
