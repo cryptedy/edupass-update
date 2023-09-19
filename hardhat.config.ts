@@ -1,6 +1,12 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomiclabs/hardhat-etherscan";
+import "@openzeppelin/hardhat-upgrades"
+import "@nomiclabs/hardhat-ethers"
+import "hardhat-gas-reporter"
+import "solidity-coverage"
+import "dotenv/config"
+
 
 const config: HardhatUserConfig = {
   solidity: {
