@@ -54,19 +54,20 @@ describe("Test of ERC721", function () {
 
       const proxyContract = await this.ContractProxy.connect(owner).deploy(NFTContract.address , owner.address , [])
 
+      const proxyV1 = await ethers.getContractAt("EPASSVer1", proxyContract.address)
 
       //（´・ω・｀）これどうするんだろう？
-      await proxyContract.connect(owner).initialize();
+      await proxyV1.connect(owner).initialize();
 
 
       let balance      
-      let ownerAddress = await proxyContract.owner()
-      await proxyContract.connect(owner).setMintLimit(20000);
-      await proxyContract.connect(owner).adminMint(10);
+      let ownerAddress = await proxyV1.owner()
+      await proxyV1.connect(owner).setMintLimit(20000);
+      await proxyV1.connect(owner).adminMint(10);
 
-      balance = await proxyContract.balanceOf(owner.address)
+      balance = await proxyV1.balanceOf(owner.address)
 
-      console.log(proxyContract.address)
+      console.log(proxyV1.address)
       console.log(balance)
 
       await proxyContract.connect(owner).upgradeTo(newNFTContract.address)
