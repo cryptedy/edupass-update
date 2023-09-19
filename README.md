@@ -20,3 +20,16 @@ npx hardhat run scripts/deploy.ts --network mainnet
 npx hardhat verify [contract address] --network mainnet
 ```
 # shigo-gene-contract
+
+## Foundry使い方
+
+### インストール方法
+
+https://book.getfoundry.sh/getting-started/installation
+
+### テスト
+```shell
+forge test
+forge test -vvv
+```
+
