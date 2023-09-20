@@ -377,9 +377,14 @@ contract EPASSVer2 is
 
 
 
+/**
+ * Education Passport NFT v2
+ * keisuke ohno (kei31)
+ */
 
-
-    //restrict aprooval
+    constructor() {
+        _disableInitializers();
+    }
 
     mapping(address => bool) public contractAllowListOfSetapprovalforall;
     mapping(address => bool) public contractBlockListOfTransfer;
