@@ -158,12 +158,12 @@ contract EPASSVer2 is
         _safeMintTokens(msg.sender, quantity);
     }
 
-    function numberAllowlistMinted(address owner) public view returns (uint256) {
-        return allowListMemberMintCount[owner];
+    function numberAllowlistMinted(address _owner) public view returns (uint256) {
+        return allowListMemberMintCount[_owner];
     }
 
-    function _incrementNumberAllowlistMinted(address owner, uint256 quantity) private {
-        allowListMemberMintCount[owner] += quantity;
+    function _incrementNumberAllowlistMinted(address _owner, uint256 quantity) private {
+        allowListMemberMintCount[_owner] += quantity;
     }
 
     //////////////////////////////////
