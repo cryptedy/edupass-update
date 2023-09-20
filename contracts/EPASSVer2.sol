@@ -384,17 +384,22 @@ contract EPASSVer2 is
     mapping(address => bool) public contractAllowListOfSetapprovalforall;
     mapping(address => bool) public contractBlockListOfTransfer;
 
-    function setContractAllowList(address _contract , bool _state ) public onlyOwner{
+    function setContractAllowListOfSetapprovalforall(address _contract , bool _state ) public onlyOwner{
         contractAllowListOfSetapprovalforall[_contract] = _state;
     }
 
-    function setContractBlockList(address _contract , bool _state ) public onlyOwner{
+    function setContractBlockListOfTransfer(address _contract , bool _state ) public onlyOwner{
         contractBlockListOfTransfer[_contract] = _state;
     }
 
     function setApprovalForAll(address operator, bool approved) public virtual override(ERC721Upgradeable, IERC721Upgradeable) {
         require( contractAllowListOfSetapprovalforall[operator] == true , "Contract is not allowed");
         super.setApprovalForAll(operator, approved);
+    }
+
+    function approve(address operator, uint256 tokenId) public virtual override(ERC721Upgradeable, IERC721Upgradeable) {
+        require( contractAllowListOfSetapprovalforall[operator] == true , "Contract is not allowed");
+        super.approve(operator, tokenId);
     }
 
     function transferFrom(address from, address to, uint256 tokenId) public override(ERC721Upgradeable, IERC721Upgradeable)  {

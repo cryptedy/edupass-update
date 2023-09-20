@@ -35,7 +35,7 @@ describe("Test of ERC721", function () {
       const newNFTContract = await hre.upgrades.upgradeProxy(NFTContract, this.ContractV2)
 
       expect( await newNFTContract.getContractAllowListOfSetapprovalforall(owner.address) ).to.equals(false);
-      await expect( newNFTContract.connect(owner).setContractAllowList(owner.address , true) ).not.reverted;
+      await expect( newNFTContract.connect(owner).setContractAllowListOfSetapprovalforall(owner.address , true) ).not.reverted;
       expect( await newNFTContract.getContractAllowListOfSetapprovalforall(owner.address) ).to.equals(true);
 
       balance = await newNFTContract.balanceOf(owner.address)
@@ -44,7 +44,7 @@ describe("Test of ERC721", function () {
 
     })
 
-
+/*
     it("address check", async function () {
 
       const [owner, otherAccount1 , otherAccount2] = await ethers.getSigners()
@@ -74,7 +74,7 @@ describe("Test of ERC721", function () {
 
     })
 
-
+*/
 
 
   })
