@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.17;
 
 import "forge-std/Test.sol";
 import "../contracts/EPASSVer1.sol";
@@ -39,10 +39,37 @@ contract TestEPASSVer2 is Test {
         proxyAdmin.upgrade(proxy, address(impV2));
         // Check balance
         assertEq(epassV2.balanceOf(vm.addr(1)), 10);
-        
+        // Cannot call initialize again
+        vm.expectRevert();
+        epassV2.initialize();
     }
 
     function testCallInitalizeOnImplementation() public {
         impV2.initialize();
+    }
+
+    function testFuzzMintAndUpgrade(uint128 seed_, uint8 times) public {
+        vm.assume(seed_ > 0 && times > 0);
+        uint256 seed = uint256(seed_);
+        uint256 timesV1 = times / 2;
+        uint256 timesV2 = times - timesV1;
+        uint256 supply;
+        uint256 count;
+        for (uint256 i; i < timesV1; ++i) {
+            count = uint256(keccak256(abi.encodePacked(seed))) % 10 + 1;
+            epassV1.adminMintTo(vm.addr(seed), count);
+            ++seed;
+            supply += count;
+        }
+        // Upgrade
+        proxyAdmin.upgrade(proxy, address(impV2));
+        for (uint256 i; i < timesV2; ++i) {
+            count = uint256(keccak256(abi.encodePacked(seed))) % 10 + 1;
+            epassV2.adminMintTo(vm.addr(seed), count);
+            ++seed;
+            supply += count;
+        }
+        // Check supply
+        assertEq(supply, epassV2.totalSupply());
     }
 }
