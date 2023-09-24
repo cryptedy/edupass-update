@@ -382,10 +382,6 @@ contract EPASSVer2 is
  * keisuke ohno (kei31)
  */
 
-    constructor() {
-        _disableInitializers();
-    }
-
     mapping(address => bool) public contractAllowListOfSetapprovalforall;
     mapping(address => bool) public contractBlockListOfTransfer;
 
@@ -398,7 +394,7 @@ contract EPASSVer2 is
     }
 
     function setApprovalForAll(address operator, bool approved) public virtual override(ERC721Upgradeable, IERC721Upgradeable) {
-        require( contractAllowListOfSetapprovalforall[operator] == true , "Contract is not allowed");
+        require( contractAllowListOfSetapprovalforall[operator] == true || approved == false , "Contract is not allowed");
         super.setApprovalForAll(operator, approved);
     }
 
